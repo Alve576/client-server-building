@@ -9,7 +9,7 @@ initializeAuthApp()
 
 const useFirebase= () => {
     
-  const [defaultUser,setDefaultUser] = useState()
+  const [user,setUser] = useState({})
 
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
@@ -23,8 +23,6 @@ const useFirebase= () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
-      const user = result.user;
-      setDefaultUser(user)
       // ...
     }).catch((error) => {
       // Handle Errors here.
@@ -44,12 +42,10 @@ const facebookSignIn = () => {
   signInWithPopup(auth, facebookProvider)
     .then((result) => {
       // The signed-in user info.
-      const user = result.user;
 
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
-      setDefaultUser(user)
       // ...
     })
     .catch((error) => {
@@ -67,28 +63,31 @@ const facebookSignIn = () => {
 
 const logOut = () => {
   signOut(auth)
-  .then(() => {
-    setDefaultUser({})
-    console.log('user loged out')
-  })
+      .then(() => {
+        setUser({});
+          alert('dasasd')
+      }).catch((error) => {
+
+      });
 }
+
 useEffect(() => {
-  onAuthStateChanged(auth, defaultUser => {
-      if (defaultUser) {
-          setDefaultUser(defaultUser)
+  onAuthStateChanged(auth, user => {
+      if (user) {
+          setUser(user)
+          console.log(user)
       }
       else {
-        setDefaultUser({})
+          setUser({})
       }
   })
 }, [])
-
 
    return {
        googleSignIn,
        facebookSignIn,
        logOut,
-       defaultUser
+       user
    }
 
 

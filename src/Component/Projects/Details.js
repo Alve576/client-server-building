@@ -7,9 +7,12 @@ const Details = () => {
     const { id } = useParams()
 
     useEffect(()=>{
-        fetch(`https://afternoon-plains-22636.herokuapp.com/${id}`)
+        fetch(`https://afternoon-plains-22636.herokuapp.com/buildings/${id}`)
         .then(res=>res.json())
-        .then(data=>setData(data))
+        .then(data=>{
+            console.log(data)
+            setData(data)
+        })
     },[])
     
     return (

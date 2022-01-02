@@ -6,8 +6,8 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import useAuth from '../../hook/useAuth';
 
 const Sidebar = () => {
-  const {googleSignIn,facebookSignIn,defaultUser,logOut} = useAuth()
-  console.log(defaultUser)
+  const {googleSignIn,facebookSignIn,user,logOut} = useAuth()
+  console.log(user)
     return (
       <Navbar expand="lg" className='shadow'>
       <Container fluid>
@@ -20,8 +20,13 @@ const Sidebar = () => {
              style={{ maxHeight: '100px' }}
              navbarScroll
           >
-            <Nav.Link onClick={googleSignIn} className="btn-hover" as={HashLink} to="/home"><GoogleIcon/></Nav.Link>
-            <Nav.Link onClick={facebookSignIn} className="btn-hover" as={HashLink} to="/home"><FacebookOutlinedIcon/></Nav.Link>
+           {
+              user.email?
+              <p>{user.email}</p> 
+             :
+             <li> <Nav.Link onClick={googleSignIn} className="btn-hover" as={HashLink} to="/home"><GoogleIcon/></Nav.Link>
+             <Nav.Link onClick={facebookSignIn} className="btn-hover" as={HashLink} to="/home"><FacebookOutlinedIcon/></Nav.Link></li> 
+           }
 
           </Nav>
           <Nav
@@ -34,7 +39,12 @@ const Sidebar = () => {
               <Nav.Link className='btn-hover' as={HashLink} to="/Projects">Projects</Nav.Link> 
               <Nav.Link className='btn-hover' as={HashLink} to="/Services">Services</Nav.Link> 
               <Nav.Link className='btn-hover' as={HashLink} to="/Contectus">Contect Us</Nav.Link> 
-              <button onClick={logOut} className='btn btn-custom'>log out</button>
+            
+            {
+              user?.email && <li>
+                  <button onClick={logOut} className='btn btn-custom'>log out</button>
+              </li>
+            }
               
              
          
